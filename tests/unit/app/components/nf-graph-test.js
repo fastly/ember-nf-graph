@@ -5,9 +5,11 @@ import {
   test
 } from 'ember-qunit';
 
-moduleForComponent('nf-graph', {});
+moduleForComponent('nf-graph', {
+  unit: true
+});
 
-['push', 'auto', 'push-tick'].forEach((mode) => 
+['push', 'auto', 'push-tick'].forEach((mode) =>
   test('changing xDataExtent[0] with xMinMode = "' + mode + '" should trigger didAutoUpdateMinX()', function(assert) {
     assert.expect(1);
 
@@ -46,7 +48,7 @@ test('changing xDataExtent[0] with xMinMode = "fixed" should NOT trigger didAuto
 });
 
 
-['push', 'auto', 'push-tick'].forEach((mode) => 
+['push', 'auto', 'push-tick'].forEach((mode) =>
   test('changing xDataExtent[0] with xMaxMode = "' + mode + '" should trigger didAutoUpdateMaxX()', function(assert) {
     assert.expect(1);
 
@@ -163,5 +165,3 @@ test('calling didAutoUpdateMaxY() should send yDataExtent over autoScaleYAction'
 
   assert.deepEqual(calledWith, ['autoScaleYAction', graph]);
 });
-
-
