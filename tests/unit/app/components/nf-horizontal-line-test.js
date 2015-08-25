@@ -6,6 +6,7 @@ import {
 } from 'ember-qunit';
 
 moduleForComponent('nf-horizontal-line', {
+  unit: true
   // specify the other units that are required for this test
   // needs: ['component:foo', 'helper:bar']
 });
