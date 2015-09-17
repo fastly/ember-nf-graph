@@ -1,6 +1,6 @@
 {
   "name": "ember-nf-graph",
-  "version": "1.0.0-beta.30",
+  "version": "1.0.0-beta.31",
   "description": "A graphing/charting DSL for Ember.js",
   "files": [
     "addon/",
@@ -28,7 +28,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "ember-cli-babel": "^5.0.0",
-    "ember-new-computed": "^1.0.0"
+    "ember-new-computed": "^1.0.3"
   },
   "devDependencies": {
     "benchpress": "^2.0.0-alpha.16",
