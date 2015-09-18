@@ -629,7 +629,7 @@ export default Ember.Component.extend({
       yMax: Number.MIN_VALUE
     }
   */
-  dataExtents: computed('graphics.[].data', function(){
+  dataExtents: computed('graphics.@each.data', function(){
     var graphics = this.get('graphics');
     return graphics.reduce((c, x) => c.concat(x.get('mappedData')), []).reduce((extents, [x, y]) => {
       extents.xMin = extents.xMin < x ? extents.xMin : x;
@@ -736,7 +736,7 @@ export default Ember.Component.extend({
     @type Array
     @readonly
   */
-  xUniqueData: computed('graphics.[].mappedData', function(){
+  xUniqueData: computed('graphics.@each.mappedData', function(){
     var graphics = this.get('graphics');
     var uniq = graphics.reduce((uniq, graphic) => {
       return graphic.get('mappedData').reduce((uniq, d) => {
@@ -755,7 +755,7 @@ export default Ember.Component.extend({
     @type Array
     @readonly
   */
-  yUniqueData: computed('graphics.[].mappedData', function(){
+  yUniqueData: computed('graphics.@each.mappedData', function(){
     var graphics = this.get('graphics');
     var uniq = graphics.reduce((uniq, graphic) => {
       return graphic.get('mappedData').reduce((uniq, d) => {
