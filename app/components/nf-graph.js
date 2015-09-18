@@ -629,7 +629,7 @@ export default Ember.Component.extend({
       yMax: Number.MIN_VALUE
     }
   */
-  dataExtents: computed('graphics.@each.data', function(){
+  dataExtents: computed('graphics.@each.mappedData.[]', function(){
     var graphics = this.get('graphics');
     return graphics.reduce((c, x) => c.concat(x.get('mappedData')), []).reduce((extents, [x, y]) => {
       extents.xMin = extents.xMin < x ? extents.xMin : x;
