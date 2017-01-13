@@ -5,15 +5,15 @@ import GraphMouseEvent from 'ember-nf-graph/utils/nf/graph-mouse-event';
 /**
   Container component for graphics to display in `nf-graph`. Represents
   the area where the graphics, such as lines will display.
-  
+
   Exists for layout purposes.
   @namespace components
   @class nf-graph-content
   @uses mixins.graph-has-graph-parent
-*/  
+*/
 export default Ember.Component.extend(HasGraphParent, {
   tagName: 'g',
-  
+
   classNames: ['nf-graph-content'],
 
   attributeBindings: ['transform', 'clip-path'],
@@ -74,7 +74,7 @@ export default Ember.Component.extend(HasGraphParent, {
     @type Array
     @readonly
   */
-  gridLanes: Ember.computed('graph.yAxis.ticks', 'width', 'height', function () {
+  gridLanes: Ember.computed('graph.yAxis.ticks.[]', 'width', 'height', function () {
     var ticks = this.get('graph.yAxis.ticks');
     var width = this.get('width');
     var height = this.get('height');
@@ -156,7 +156,7 @@ export default Ember.Component.extend(HasGraphParent, {
     @type Array
     @readonly
   */
-  frets: Ember.computed.alias('graph.xAxis.ticks'),
+  frets: Ember.computed.alias('graph.xAxis.ticks.[]'),
 
   init(){
     this._super(...arguments);

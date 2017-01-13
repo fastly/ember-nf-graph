@@ -59,25 +59,47 @@ export default Ember.Component.extend(HasGraphParent, RequiresScaleSource, {
     }
 
     text.text(display);
-    
-    var textPadding = this.get('textPadding');
-    var leftX = this.get('leftX');
-    var graphHeight = this.get('graphHeight');
-    var bbox = text[0][0].getBBox();
 
-    var doublePad = textPadding * 2;
-    var width = bbox.width + doublePad;
-    var height = bbox.height + doublePad;
-    var x = Math.max(0, leftX - width);
-    var y = graphHeight - height;
+    Ember.run.scheduleOnce('afterRender', this, function() {
+      var textPadding = this.get('textPadding');
+      var leftX = this.get('leftX');
+      var graphHeight = this.get('graphHeight');
+      var bbox;
 
-    g.attr('transform', `translate(${x} ${y})`);
-    
-    text.attr('x', textPadding).
-      attr('y', textPadding);
+      try {
+        bbox = text[0][0].getBBox();
+      } catch (error) {
 
-    bg.attr('width', width).
-      attr('height', height);
+        // NS_ERROR_FAILURE will appear in Firefox if text[0][0] is
+        // not yet in the DOM, see
+        // https://bugzilla.mozilla.org/show_bug.cgi?id=612118
+        //
+        //
+
+        if (error.name === "NS_ERROR_FAILURE") {
+
+          // If this is the error then don't do anything and return.
+          // it will get call in the cycle
+          return;
+        } else {
+          throw error;
+        }
+      }
+
+      var doublePad = textPadding * 2;
+      var width = bbox.width + doublePad;
+      var height = bbox.height + doublePad;
+      var x = Math.max(0, leftX - width);
+      var y = graphHeight - height;
+
+      g.attr('transform', `translate(${x} ${y})`);
+
+      text.attr('x', textPadding).
+        attr('y', textPadding);
+
+      bg.attr('width', width).
+        attr('height', height);
+    });
   },
 
   _onLeftChange: Ember.on(
@@ -103,25 +125,48 @@ export default Ember.Component.extend(HasGraphParent, RequiresScaleSource, {
 
     text.text(display);
 
-    var textPadding = this.get('textPadding');
-    var rightX = this.get('rightX');
-    var graphHeight = this.get('graphHeight');
-    var graphWidth = this.get('graphWidth');
-    var bbox = text[0][0].getBBox();
+    Ember.run.scheduleOnce('afterRender', this, function() {
+      var textPadding = this.get('textPadding');
+      var rightX = this.get('rightX');
+      var graphHeight = this.get('graphHeight');
+      var graphWidth = this.get('graphWidth');
+      var bbox;
 
-    var doublePad = textPadding * 2;
-    var width = bbox.width + doublePad;
-    var height = bbox.height + doublePad;
-    var x = Math.min(graphWidth - width, rightX);
-    var y = graphHeight - height;
+      try {
+        bbox = text[0][0].getBBox();
+      } catch (error) {
 
-    g.attr('transform', `translate(${x} ${y})`);
-    
-    text.attr('x', textPadding).
-      attr('y', textPadding);
+        // NS_ERROR_FAILURE will appear in Firefox if text[0][0] is
+        // not yet in the DOM, see
+        // https://bugzilla.mozilla.org/show_bug.cgi?id=612118
+        //
+        //
 
-    bg.attr('width', width).
-      attr('height', height);
+        if (error.name === "NS_ERROR_FAILURE") {
+
+          // If this is the error then don't do anything and return.
+          // it will get call in the cycle
+          return;
+        } else {
+          throw error;
+        }
+      }
+
+
+      var doublePad = textPadding * 2;
+      var width = bbox.width + doublePad;
+      var height = bbox.height + doublePad;
+      var x = Math.min(graphWidth - width, rightX);
+      var y = graphHeight - height;
+
+      g.attr('transform', `translate(${x} ${y})`);
+
+      text.attr('x', textPadding).
+        attr('y', textPadding);
+
+      bg.attr('width', width).
+        attr('height', height);
+    });
   },
 
   _onRightChange: Ember.on(
@@ -152,7 +197,7 @@ export default Ember.Component.extend(HasGraphParent, RequiresScaleSource, {
   leftX: Ember.computed('xScale', 'left', function() {
     var left = this.get('left') || 0;
     var scale = this.get('xScale');
-    return scale ? scale(left) : 0; 
+    return scale ? scale(left) : 0;
   }),
 
   rightX: Ember.computed('xScale', 'right', function() {
@@ -162,7 +207,7 @@ export default Ember.Component.extend(HasGraphParent, RequiresScaleSource, {
   }),
 
   graphWidth: Ember.computed.alias('graph.graphWidth'),
-  
+
   graphHeight: Ember.computed.alias('graph.graphHeight'),
 
   rightWidth: Ember.computed('rightX', 'graphWidth', function() {
